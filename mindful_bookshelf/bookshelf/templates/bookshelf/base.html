@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}My Bookshelf{% endblock %}</title>
+    <meta name="description" content="Explore a collection of books on various topics.">
+    <meta name="keywords" content="books, literature, reading, bookshelf">
+    <link rel="stylesheet" href="{% static 'bookshelf/css/global.css' %}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    {% include 'bookshelf/header.html' %}
+    
+    <div class="content">
+        {% block content %}{% endblock %}
+    </div>
+    
+    {% include 'bookshelf/footer.html' %}
+
+    <script src="{% static 'bookshelf/js/main.js' %}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>
