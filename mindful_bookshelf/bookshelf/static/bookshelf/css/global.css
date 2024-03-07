@@ -1,0 +1,37 @@
+/* global.css */
+
+body {
+    font-family: 'Times New Roman', Times, serif;
+    background-color: #F7F5F2; /* Light beige */
+    color: #333; /* Dark grey */
+    margin: 0;
+    padding: 0;
+}
+
+.header {
+    background-color: #F5E6CA; /* Light brown */
+    padding: 20px;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 24px;
+    color: #4D3319; /* Dark brown */
+}
+
+.content {
+    padding: 20px;
+}
+
+.footer {
+    background-color: #F5E6CA; /* Light brown */
+    padding: 20px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.footer p {
+    margin: 0;
+}
+
+/* Add more styles as needed */

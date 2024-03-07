@@ -1,10 +1,7 @@
-from django.contrib import admin
-from django.urls import path, include
-from bookshelf import views
+from django.urls import path
+from . import views
 
 urlpatterns = [
-    path("", views.book_list, name="home"),  # Redirect root URL to book list view
-    path("admin/", admin.site.urls),
-    path("bookshelf/", include("bookshelf.urls")),
+    path("", views.book_list, name="book_list"),
     # Add more URL patterns as needed
 ]
