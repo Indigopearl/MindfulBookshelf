@@ -1,0 +1,79 @@
+{% extends 'bookshelf/base.html' %}
+{% load static %}
+{% block title %}Admin Overview{% endblock %}
+{% block content %}
+    <div class="admin-overview">
+        <h2>Add New Book</h2>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <!-- Render each form field individually -->
+            <p>
+                <label for="id_title">Title:</label>
+                {{ form.title }}
+            </p>
+            <p>
+                <label for="id_author">Author:</label>
+                {{ form.author }}
+            </p>
+            <p>
+                <label for="id_description">Description:</label>
+                {{ form.description }}
+            </p>
+            <p>
+                <label for="id_publication_date">Publication Date:</label>
+                <input type="date" name="publication_date" required id="id_publication_date">
+            </p>
+            <p>
+                <label for="id_picture">Picture:</label>
+                {{ form.picture }}
+            </p>
+            <p>
+                <label for="id_pdf_document">PDF Document:</label>
+                {{ form.pdf_document }}
+            </p>
+            <!-- Dropdown menu for selecting existing categories -->
+            <p>
+                <label for="id_category">Category:</label>
+                <select name="category"
+                        required
+                        id="id_category"
+                        onchange="toggleNewCategoryInput()">
+                    <option value="" selected>---------</option>
+                    {% for category in categories %}<option value="{{ category.id }}">{{ category.name }}</option>{% endfor %}
+                    <!-- Option for adding a new category -->
+                    <option value="new">Add New Category</option>
+                </select>
+            </p>
+            <!-- Input field for adding a new category -->
+            <p id="new_category_input" style="display: none;">
+                <label for="id_new_category_name">New Category Name:</label>
+                <input type="text" name="new_category_name" id="id_new_category_name">
+                <button type="submit">Add Category</button>
+            </p>
+            <button type="submit">Add Book</button>
+        </form>
+        <h2>Books</h2>
+        <ul>
+            {% for book in books %}<li>{{ book.title }}</li>{% endfor %}
+        </ul>
+        <h2>Users</h2>
+        <ul>
+            {% for user in users %}<li>{{ user.username }}</li>{% endfor %}
+        </ul>
+    </div>
+</div>
+<script>
+    function toggleNewCategoryInput() {
+        var categorySelect = document.getElementById("id_category");
+        var newCategoryInput = document.getElementById("new_category_input");
+
+        if (categorySelect.value === "new") {
+            categorySelect.style.display = "none";
+            newCategoryInput.style.display = "block";
+        } else {
+            categorySelect.style.display = "block";
+            newCategoryInput.style.display = "none";
+        }
+    }
+</script>
+{% endblock %}

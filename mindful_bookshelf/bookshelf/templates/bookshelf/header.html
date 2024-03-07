@@ -1,13 +1,25 @@
-<header>
-    <nav>
+<!-- header.html -->
+
+<header class="header">
+    <h1>My Bookshelf</h1>
+    <nav class="navigation">
         <ul>
-            <li>
-                <a href="{% url 'book_list' %}">BookShelf</a>
-            </li>
-            <li>
-                <a href="{% url 'home' %}">Home</a>
-            </li>
-            <!-- Add more navigation links as needed -->
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Books</a></li>
+            <li><a href="#">About</a></li>
+            {% if user.is_authenticated %}
+                {% if user.is_staff %}
+                    <!-- Display admin overview link only for admin users -->
+                    <li><a href="{% url 'admin_overview' %}">Admin Overview</a></li>
+                {% endif %}
+                <!-- Display sign-out link for authenticated users -->
+                <li><a href="{% url 'logout' %}">Sign Out</a></li>
+            {% else %}
+                <!-- Display sign-in link for non-authenticated users -->
+                <li><a href="{% url 'login' %}">Sign In</a></li>
+                <!-- Display sign-up link for non-authenticated users -->
+                <li><a href="{% url 'signup' %}">Sign Up</a></li>
+            {% endif %}
         </ul>
     </nav>
 </header>
