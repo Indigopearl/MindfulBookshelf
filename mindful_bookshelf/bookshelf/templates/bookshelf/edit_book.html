@@ -1,0 +1,82 @@
+{% extends 'bookshelf/base.html' %}
+{% block title %}Edit Book{% endblock %}
+{% block content %}
+    <h2>Edit Book</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <!-- Render each form field individually -->
+        <p>
+            <label for="id_title">Title:</label>
+            {{ form.title }}
+        </p>
+        <p>
+            <label for="id_author">Author:</label>
+            {{ form.author }}
+        </p>
+        <p>
+            <label for="id_description">Description:</label>
+            {{ form.description }}
+        </p>
+        <p>
+            <label for="id_publication_date">Publication Date:</label>
+            <input type="date"
+                   name="publication_date"
+                   required
+                   id="id_publication_date"
+                   value="{{ book.publication_date }}">
+        </p>
+        <p>
+            <label for="id_picture">Picture:</label>
+            <input type="file" name="picture" id="id_picture">
+            {% if book.picture %}
+                <img src="{{ book.picture.url }}"
+                     alt="Book Cover"
+                     width="200"
+                     height="300">
+            {% else %}
+                <p>No picture available</p>
+            {% endif %}
+        </p>
+        <p>
+            <label for="id_pdf_document">PDF Document:</label>
+            {{ form.pdf_document }}
+        </p>
+        <!-- Dropdown menu for selecting existing categories -->
+        <p>
+            <label for="id_category">Category:</label>
+            <select name="category"
+                    required
+                    id="id_category"
+                    onchange="toggleNewCategoryInput()">
+                <option value="" selected>---------</option>
+                {% for category in categories %}
+                    <option value="{{ category.id }}"
+                            {% if book.category == category %}selected{% endif %}>{{ category.name }}</option>
+                {% endfor %}
+                <!-- Option for adding a new category -->
+                <option value="new">Add New Category</option>
+            </select>
+        </p>
+        <!-- Input field for adding a new category -->
+        <p id="new_category_input" style="display: none;">
+            <label for="id_new_category_name">New Category Name:</label>
+            <input type="text" name="new_category_name" id="id_new_category_name">
+            <button type="submit">Add Category</button>
+        </p>
+        <button type="submit">Save Changes</button>
+    </form>
+    <script>
+        function toggleNewCategoryInput() {
+            var categorySelect = document.getElementById("id_category");
+            var newCategoryInput = document.getElementById("new_category_input");
+
+            if (categorySelect.value === "new") {
+                categorySelect.style.display = "none";
+                newCategoryInput.style.display = "block";
+            } else {
+                categorySelect.style.display = "block";
+                newCategoryInput.style.display = "none";
+            }
+        }
+    </script>
+{% endblock %}

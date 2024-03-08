@@ -1,12 +1,31 @@
-{% extends 'bookshelf/base.html' %}
-
-{% block title %}{{ book.title }}{% endblock %}
-
 {% block content %}
     <h1>{{ book.title }}</h1>
-    <p><strong>Author:</strong> {{ book.author }}</p>
-    <p><strong>Description:</strong> {{ book.description }}</p>
-    <p><strong>Publication Date:</strong> {{ book.publication_date }}</p>
-    <p><strong>Category:</strong> {{ book.category }}</p>
+    <p>
+        <strong>Author:</strong> {{ book.author }}
+    </p>
+    <p>
+        <strong>Description:</strong> {{ book.description }}
+    </p>
+    <p>
+        <strong>Publication Date:</strong> {{ book.publication_date|date:"F d, Y" }}
+    </p>
+    <p>
+        <strong>Category:</strong> {{ book.category.name }}
+    </p>
+    {% if book.cover_image %}
+        <img src="{{ book.cover_image.url }}"
+             alt="Book Cover"
+             width="200"
+             height="300">
+    {% else %}
+        <p>No cover image available</p>
+    {% endif %}
+    <p>
+        {% if book.pdf_document %}
+            <a href="{% url 'book_detail' book_id=book.id %}">Read Book</a>
+        {% else %}
+            <p>No PDF available for this book</p>
+        {% endif %}
+    </p>
     <!-- Add more details as needed -->
 {% endblock %}

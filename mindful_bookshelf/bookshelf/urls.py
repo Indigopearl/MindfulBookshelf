@@ -1,3 +1,5 @@
+# bookshelf/urls.py
+
 from django.urls import path
 from . import views
 
@@ -12,6 +14,11 @@ urlpatterns = [
         views.delete_user,
         name="delete_user",
     ),
+    path("add_book/", views.add_book, name="add_book"),
     path("add_category/", views.add_category, name="add_category"),
+    path("book_detail/<int:book_id>/", views.book_detail, name="book_detail"),
+    path("delete_book/", views.delete_book, name="delete_book"),
+    path("edit/<int:book_id>/", views.edit_book_view, name="edit_book"),
+    path("user_details/", views.user_details, name="user_details"),
     # Add more URL patterns as needed
 ]
