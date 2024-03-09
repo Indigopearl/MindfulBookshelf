@@ -15,9 +15,8 @@
                 <option value="{{ book.id }}" data-available="{{ book.available }}">{{ book.title }}</option>
             {% endfor %}
         </select>
-        <button id="showBookDetails">Show Book Details</button>
-        <button id="toggleBookAvailability">Toggle Availability</button>
-        <button id="deleteBook" style="display: none;">Delete Book</button>
+        <button id="showBookDetails"
+                data-book-details-url="{% url 'book_detail' book_id=0 %}">Show Book Details</button>
         <h2>Users</h2>
         <div>
             {% if users %}
@@ -26,7 +25,7 @@
                     <option value="" selected>Select User</option>
                     {% for user in users %}<option value="{{ user.id }}">{{ user.username }}</option>{% endfor %}
                 </select>
-                <button id="searchButton">Show User Details</button>
+                <button id="showUserDetails">Show User Details</button>
             {% else %}
                 <p>No users available.</p>
             {% endif %}
@@ -39,15 +38,15 @@
             var bookSearchInput = document.getElementById('bookSearch');
             var userDropdown = document.getElementById('userDropdown');
             var userSearch = document.getElementById('userSearch');
-            var toggleBookAvailabilityButton = document.getElementById('toggleBookAvailability');
-            var deleteBookButton = document.getElementById('deleteBook');
-    
+            
+            var bookDetailsUrl = document.getElementById('showBookDetails').getAttribute('data-book-details-url');
+
             // Filter book dropdown based on search input
             bookSearchInput.addEventListener('input', function() {
                 var searchTerm = this.value.toLowerCase();
                 var options = bookDropdown.options;
                 var foundMatch = false;
-    
+
                 for (var i = 1; i < options.length; i++) {
                     var bookTitle = options[i].text.toLowerCase();
                     if (bookTitle.includes(searchTerm)) {
@@ -62,98 +61,54 @@
                 if (!foundMatch) {
                     bookDropdown.selectedIndex = 0; // Reset to "Select Book"
                     alert("Book not found."); // Notify user if no match found
+                } else {
+                    // Trigger change event to simulate user selection
+                    bookDropdown.dispatchEvent(new Event('change'));
                 }
             });
-    
-            // Handle selecting a book from the dropdown
-            bookDropdown.addEventListener('change', function() {
-                var selectedBookId = this.value;
-                var selectedBook = bookDropdown.options[bookDropdown.selectedIndex];
-                var isAvailable = selectedBook.getAttribute('data-available') === 'True';
+
+            // Handle show book details button click
+            document.getElementById('showBookDetails').addEventListener('click', function() {
+                var selectedBookId = bookDropdown.value;
                 if (selectedBookId) {
-                    // Update visibility of delete button based on availability
-                    deleteBookButton.style.display = isAvailable ? 'none' : 'block';
+                    var url = bookDetailsUrl.replace('0', selectedBookId);
+                    window.open(url, '_popup', 'width=800,height=600');
+                } else {
+                    alert("Please select a book.");
                 }
             });
-    
+
             // Filter user dropdown based on search input
             userSearch.addEventListener('input', function() {
                 var searchTerm = this.value.toLowerCase();
                 var options = userDropdown.options;
-                var foundMatch = false;
-    
+
                 for (var i = 1; i < options.length; i++) {
                     var username = options[i].text.toLowerCase();
                     if (username.startsWith(searchTerm)) {
                         options[i].style.display = "block";
                         userDropdown.selectedIndex = i; // Autofill with first matching user
-                        foundMatch = true;
-                        break; // Stop after finding the first match
+                        return; // Stop after finding the first match
                     } else {
                         options[i].style.display = "none";
                     }
                 }
-                if (!foundMatch) {
-                    userDropdown.selectedIndex = 0; // Reset to "Select User"
-                    alert("User not found."); // Notify user if no match found
-                }
+
+                // If no match found, reset to "Select User"
+                userDropdown.selectedIndex = 0;
             });
-    
-            // Handle selecting a user from the dropdown for existing books
-            userDropdown.addEventListener('change', function() {
-                // Get the selected user ID from the dropdown value
-                var selectedUserId = this.value;
-                if (selectedUserId) {
-                    // Update the edit book URL in the existing book list to prefill the user field
-                    var bookLinks = document.querySelectorAll('.admin-overview ul a');
-                    for (var i = 0; i < bookLinks.length; i++) {
-                        var bookLink = bookLinks[i];
-                        var urlParams = new URLSearchParams(bookLink.search);
-                        urlParams.set('prefill_user', selectedUserId);
-                        bookLink.search = urlParams.toString();
-                    }
-                }
-            });
-    
-            // Handle toggle availability button click
-            toggleBookAvailabilityButton.addEventListener('click', function() {
-                var selectedBookId = bookDropdown.value;
-                if (selectedBookId) {
-                    var selectedBook = bookDropdown.options[bookDropdown.selectedIndex];
-                    var isAvailable = selectedBook.getAttribute('data-available') === 'True';
-                    // Update book availability text
-                    selectedBook.setAttribute('data-available', isAvailable ? 'False' : 'True');
-                    selectedBook.textContent = isAvailable ? 'Offline' : 'Online';
-                } else {
-                    alert("Please select a book.");
-                }
-            });
-    
-            // Handle delete book button click
-            deleteBookButton.addEventListener('click', function() {
-                var confirmed = confirm("Are you sure you want to delete this book?");
-                if (confirmed) {
-                    var selectedBookId = bookDropdown.value;
-                    if (selectedBookId) {
-                        // Implement logic to delete book
-                        var url = "{% url 'delete_book' %}?book_id=" + selectedBookId;
-                        window.location.href = url;
-                    }
-                }
-            });
-    
+
             // Handle search button click for users (optional)
-            document.getElementById('searchButton').addEventListener('click', function() {
+            document.getElementById('showUserDetails').addEventListener('click', function() {
                 var selectedUserId = userDropdown.value;
                 if (selectedUserId) {
                     var url = "{% url 'user_details' %}?id=" + selectedUserId;
-                    // Open URL in a new popup window with options (optional)
-                    window.open(url, '_popup', 'width=600,height=400'); 
+                    window.open(url, '_popup', 'width=800,height=600');
                 } else {
                     alert("Please select a user.");
                 }
             });
-    
+
             // ... other existing functions ...
         });
     </script>

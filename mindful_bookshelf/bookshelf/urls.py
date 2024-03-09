@@ -19,6 +19,11 @@ urlpatterns = [
     path("book_detail/<int:book_id>/", views.book_detail, name="book_detail"),
     path("delete_book/", views.delete_book, name="delete_book"),
     path("edit/<int:book_id>/", views.edit_book_view, name="edit_book"),
-    path("user_details/", views.user_details, name="user_details"),
+    path("user-details/", views.user_details, name="user_details"),
+    path(
+        "toggle-book-availability/",
+        views.toggle_book_availability,
+        name="toggle_book_availability",
+    ),
     # Add more URL patterns as needed
 ]

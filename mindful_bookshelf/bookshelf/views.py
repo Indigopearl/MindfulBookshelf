@@ -184,3 +184,24 @@ def mark_book_as_read(request, book_id):
         return redirect("book_detail", book_id=book_id)
     else:
         return HttpResponseNotAllowed(["POST"])
+
+
+def toggle_book_availability(request):
+    if request.method == "POST":
+        book_id = request.POST.get("book_id")
+        if book_id:
+            try:
+                book = Book.objects.get(pk=book_id)
+                book.available = not book.available
+                book.save()
+                return JsonResponse(
+                    {
+                        "success": True,
+                        "message": "Book availability toggled successfully.",
+                    }
+                )
+            except Book.DoesNotExist:
+                return JsonResponse({"success": False, "message": "Book not found."})
+    return JsonResponse(
+        {"success": False, "message": "Invalid request method or missing parameters."}
+    )

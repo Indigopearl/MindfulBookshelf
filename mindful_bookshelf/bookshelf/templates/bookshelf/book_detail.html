@@ -1,3 +1,5 @@
+{% load static %}
+{% block title %}Book Details - {{ book.title }}{% endblock %}
 {% block content %}
     <h1>{{ book.title }}</h1>
     <p>
@@ -27,5 +29,26 @@
             <p>No PDF available for this book</p>
         {% endif %}
     </p>
-    <!-- Add more details as needed -->
+    {% if book.available %}
+        <p>
+            Status: <strong>Online</strong>
+        </p>
+    {% else %}
+        <p>
+            Status: <strong>Offline</strong>
+        </p>
+        <button id="toggleBookAvailability"
+                data-book-id="{{ book.id }}"
+                data-available="{{ book.available }}">Toggle Availability</button>
+    {% endif %}
+    {% if not book.available %}<button id="deleteBook" data-book-id="{{ book.id }}">Delete Book</button>{% endif %}
+    <button id="editBookButton"
+            data-book-id="{{ book.id }}"
+            onclick="navigateToEditBook({{ book.id }})">Edit Book Details</button>
+    <script>
+                function navigateToEditBook(bookId) {
+                  // Your JavaScript code to handle navigation (e.g., confirm popup, window.location)
+                  window.location.href = "{% url 'edit_book' book_id=book.id %}"; // Example using window.location
+                }
+    </script>
 {% endblock %}
