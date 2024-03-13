@@ -2,15 +2,13 @@
 {% load static %}
 <header class="header">
     <!-- Logo -->
-    {% if theme == 'dark' %}
-        <img src="{% static 'bookshelf/img/logos/Bookstore_dark-removebg-preview.png' %}"
-             alt="MindfulBookshelf Logo"
-             class="logo logo-dark">
-    {% else %}
+    <a href="{% url 'home' %}">
         <img src="{% static 'bookshelf/img/logos/Bookstore_light-removebg-preview.png' %}"
              alt="MindfulBookshelf Logo"
-             class="logo logo-light">
-    {% endif %}
+             class="logo logo-light"
+             width="250"
+             height="250">
+    </a>
     <!-- Navigation -->
     <nav class="navigation">
         <ul>
