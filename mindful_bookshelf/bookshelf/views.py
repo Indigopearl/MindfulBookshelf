@@ -205,3 +205,18 @@ def toggle_book_availability(request):
     return JsonResponse(
         {"success": False, "message": "Invalid request method or missing parameters."}
     )
+
+
+def home(request):
+    return render(request, "bookshelf/home.html")
+
+
+def about(request):
+    return render(request, "bookshelf/about.html")
+
+
+def home(request):
+    theme = request.session.get(
+        "theme", "light"
+    )  # Default to light theme if theme is not set
+    return render(request, "bookshelf/home.html", {"theme": theme})

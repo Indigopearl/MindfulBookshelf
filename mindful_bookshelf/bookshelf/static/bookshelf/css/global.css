@@ -88,3 +88,8 @@ body {
 .footer p {
     margin: 0;
 }
+
+.logo {
+    width: 150px; /* Adjust width as needed */
+    height: auto; /* Maintain aspect ratio */
+}
