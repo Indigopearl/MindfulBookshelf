@@ -12,6 +12,7 @@ from .models import Book
 from .forms import BookForm
 from .forms import CategoryForm
 from .models import Category
+from django.contrib import messages
 
 
 def book_list(request):
@@ -30,7 +31,12 @@ def signup_view(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect("home")
+            return redirect(
+                "home"
+            )  # Redirect to homepage after successful registration
+        else:
+            # Handle invalid form data (error messages, etc.)
+            pass
     else:
         form = UserCreationForm()
     return render(request, "bookshelf/signup.html", {"form": form})
