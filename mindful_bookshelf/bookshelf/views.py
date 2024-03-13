@@ -131,7 +131,7 @@ def add_book(request):
             return redirect("book_list")  # Redirect to book list page after adding book
     else:
         form = BookForm()
-    return render(request, "add_book.html", {"form": form})
+    return render(request, "bookshelf/add_book.html", {"form": form})
 
 
 def add_category(request):

@@ -1,0 +1,101 @@
+{% extends 'bookshelf/base.html' %}
+{% load static %}
+{% block title %}Add New Book{% endblock %}
+{% block content %}
+    <h1>Add book</h1>
+    <form enctype="multipart/form-data" method="post" id="book_form" novalidate>
+        {% csrf_token %}
+        <!-- Title -->
+        <div class="form-row field-title">
+            <label for="id_title">Title:</label>
+            <input type="text" name="title" id="id_title" required>
+        </div>
+        <!-- Author -->
+        <div class="form-row field-author">
+            <label for="id_author">Author:</label>
+            <input type="text" name="author" id="id_author" required>
+        </div>
+        <!-- Description -->
+        <div class="form-row field-description">
+            <label for="id_description">Description:</label>
+            <textarea name="description" id="id_description" cols="40" rows="10" required></textarea>
+        </div>
+        <!-- Publication Date -->
+        <div class="form-row field-publication_date">
+            <div class="flex-container">
+                <label class="required" for="id_publication_date">Publication date:</label>
+                <p class="date">
+                    <input type="text"
+                           name="publication_date"
+                           class="vDateField"
+                           size="10"
+                           required
+                           id="id_publication_date"
+                           maxlength="10"
+                           autocomplete="off">
+                </p>
+                <p class="instructions">Please enter the publication date in the format YYYYMMDD (e.g., 20240307).</p>
+            </div>
+        </div>
+        <!-- Category -->
+        <div class="form-row field-category">
+            <label for="id_category">Category:</label>
+            <select name="category" id="id_category" required>
+                <option value="" selected>---------</option>
+            </select>
+        </div>
+        <!-- Cover Image -->
+        <div class="form-row field-cover_image">
+            <label for="id_cover_image">Cover image:</label>
+            <input type="file" name="cover_image" id="id_cover_image" accept="image/*">
+        </div>
+        <!-- PDF Document -->
+        <div class="form-row field-pdf_document">
+            <label for="id_pdf_document">Pdf document:</label>
+            <input type="file" name="pdf_document" id="id_pdf_document">
+        </div>
+        <div class="submit-row">
+            <input type="submit" value="Save">
+            <input type="submit" value="Save and add another" name="_addanother">
+            <input type="submit" value="Save and continue editing" name="_continue">
+        </div>
+    </form>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOMContentLoaded event fired.');
+            
+            var inputField = document.getElementById('id_publication_date');
+    
+            inputField.addEventListener('input', function() {
+                var value = inputField.value.replace(/\D/g, ''); // Remove non-numeric characters
+                var formattedValue = '';
+    
+                if (value.length >= 4) {
+                    formattedValue += value.substr(0, 4);
+                }
+                if (value.length >= 6) {
+                    formattedValue += '-' + value.substr(4, 2);
+                }
+                if (value.length >= 8) {
+                    formattedValue += '-' + value.substr(6, 2);
+                }
+    
+                inputField.value = formattedValue;
+            });
+
+            // Fetch categories from backend
+            fetch('/api/categories/')
+                .then(response => response.json())
+                .then(data => {
+                    const categorySelect = document.getElementById('id_category');
+                    data.forEach(category => {
+                        const option = document.createElement('option');
+                        option.value = category.id;
+                        option.textContent = category.name;
+                        categorySelect.appendChild(option);
+                    });
+                })
+                .catch(error => console.error('Error fetching categories:', error));
+        });
+    </script>
+{% endblock %}

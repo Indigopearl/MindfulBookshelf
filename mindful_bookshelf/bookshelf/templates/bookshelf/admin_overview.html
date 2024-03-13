@@ -4,7 +4,7 @@
 {% block content %}
     <div class="admin-overview">
         <h2>Add New Book</h2>
-        <a href="{% url 'add_book' %}" target="_blank">Add New Book</a>
+        <button id="addNewBook">Add New Book</button>
         <h2>Add New Category</h2>
         <a href="{% url 'add_category' %}" target="_blank">Add New Category</a>
         <h2>Books</h2>
@@ -40,6 +40,7 @@
             var userSearch = document.getElementById('userSearch');
             
             var bookDetailsUrl = document.getElementById('showBookDetails').getAttribute('data-book-details-url');
+            var addNewBookButton = document.getElementById('addNewBook');
 
             // Filter book dropdown based on search input
             bookSearchInput.addEventListener('input', function() {
@@ -103,11 +104,20 @@
                 var selectedUserId = userDropdown.value;
                 if (selectedUserId) {
                     var url = "{% url 'user_details' %}?id=" + selectedUserId;
-                    window.open(url, '_popup', 'width=800,height=600');
+                    window.open(url, '_popup', 'width=600,height=400');
                 } else {
                     alert("Please select a user.");
                 }
             });
+
+        // Handle add new book button click
+        addNewBookButton.addEventListener('click', function() {
+            var url = "{% url 'add_book' %}";
+            // Define the size and attributes of the new window
+            var newWindow = window.open(url, '_blank', 'width=800,height=600,top=100,left=100');
+            // Focus on the new window
+            newWindow.focus();
+        });
 
             // ... other existing functions ...
         });

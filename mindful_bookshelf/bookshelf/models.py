@@ -19,16 +19,16 @@ class Category(models.Model):
 
 # Define your Book model
 class Book(models.Model):
-    title = models.CharField(max_length=100)
+    title = models.CharField(max_length=100, unique=True)
     author = models.CharField(max_length=100)
     description = models.TextField()
     publication_date = models.DateField()
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     cover_image = models.ImageField(
-        upload_to="static/bookshelf/img/", blank=True, null=True
+        upload_to="static/bookshelf/book/img/", blank=True, null=True
     )
     pdf_document = models.FileField(
-        upload_to="static/bookshelf/pdf/", blank=True, null=True
+        upload_to="static/bookshelf/books/pdf/", blank=True, null=True
     )
 
     def __str__(self):

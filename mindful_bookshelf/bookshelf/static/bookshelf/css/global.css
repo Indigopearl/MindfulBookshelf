@@ -1,21 +1,40 @@
 /* global.css */
 
+:root {
+    /* Light theme colors */
+    --background-light: #ffe8d6; /* Peach */
+    --text-primary-light: #6b705c; /* Slate Gray */
+    --text-secondary-light: #b7b7a4; /* Ash Gray */
+    --accent-primary-light: #cb997e; /* Terra Cotta */
+    --accent-secondary-light: #ddbea9; /* Almond */
+    
+    /* Dark theme colors */
+    --background-dark: #6b705c; /* Slate Gray */
+    --text-primary-dark: #ffe8d6; /* Peach */
+    --text-secondary-dark: #b7b7a4; /* Ash Gray */
+    --accent-primary-dark: #cb997e; /* Terra Cotta */
+    --accent-secondary-dark: #ddbea9; /* Almond */
+}
+
+/* Base styles for body */
 body {
     font-family: 'Times New Roman', Times, serif;
-    background-color: #F7F5F2; /* Light beige */
-    color: #333; /* Dark grey */
+    background-color: var(--background-light); /* Light theme background color */
+    color: var(--text-primary-light); /* Light theme text color */
     margin: 0;
     padding: 0;
 }
 
+/* Header styles */
 .header {
-    background-color: #f5f5f5;
+    background-color: #f5f5f5; /* Light gray */
     padding: 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
+/* Navigation styles */
 .navigation ul {
     list-style-type: none;
     margin: 0;
@@ -33,30 +52,32 @@ body {
 
 .navigation li a {
     text-decoration: none;
-    color: #333;
+    color: var(--text-primary-light); /* Light theme text color */
     font-weight: bold;
 }
 
 .navigation li a:hover {
-    color: #555;
+    color: #555; /* Darker gray */
 }
 
-/* Style for the sign-in button */
+/* Sign-in button styles */
 .navigation .sign-in-button {
-    background-color: #007bff;
-    color: #fff;
+    background-color: #007bff; /* Primary blue */
+    color: #fff; /* White */
     padding: 8px 16px;
     border-radius: 4px;
 }
 
 .navigation .sign-in-button:hover {
-    background-color: #0056b3;
+    background-color: #0056b3; /* Darker blue */
 }
 
+/* Content styles */
 .content {
     padding: 20px;
 }
 
+/* Footer styles */
 .footer {
     background-color: #F5E6CA; /* Light brown */
     padding: 20px;
@@ -67,5 +88,3 @@ body {
 .footer p {
     margin: 0;
 }
-
-/* Add more styles as needed */
